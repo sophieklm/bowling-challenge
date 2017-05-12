@@ -26,6 +26,39 @@ describe('Game', function(){
       expect(game.getScore()).toEqual(5);
     });
 
+    it('knows which frame it is in', function(){
+      expect(game.getFrame()).toEqual(1);
+    });
+
+    it('knows how many bowls have been played', function(){
+      expect(game.getBowl()).toEqual(1);
+    });
+
+    it('has two bowls per frame', function(){
+      game.bowl(1);
+      expect(game.getBowl()).toEqual(2);
+    });
+
+    it('increments the frame after two bowls', function(){
+      game.bowl(1);
+      game.bowl(1);
+      expect(game.getFrame()).toEqual(2);
+    });
+
+    it('resets the pins after two bowls', function(){
+      game.bowl(1);
+      game.bowl(1);
+      expect(game.getPins()).toEqual(10);
+    });
+
+    it('can only have ten frames', function(){
+      
+    })
+  });
+
+  describe('last frame', function(){
+
+
   });
   
 });
