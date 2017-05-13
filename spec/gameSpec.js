@@ -52,7 +52,16 @@ describe('Game', function(){
     });
 
     it('can only have ten frames', function(){
-      
+      for(var i=0 ; i<20; i++) {
+        game.bowl(1);
+      };
+      expect(game.getFrame()).toEqual(10);
+      expect(function(){game.bowl(1)}).toThrowError('Game Over!');
+    });
+
+    it('incrememnts frame after strike', function(){
+      game.bowl(10);
+      expect(game.getFrame()).toEqual(2);
     })
   });
 
