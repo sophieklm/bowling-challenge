@@ -1,0 +1,13 @@
+{
+    "plugins": ["jasmine", "import"],
+    "extends": ["airbnb-base", "angular", "eslint:recommended", "plugin:jasmine/recommended"],
+    "rules": {
+      "quotes": [ 2, "single"],
+      "strict": [2, "global"],
+      "semi": ["error", "always"],
+      "angular/on-watch": "warn"
+    },
+    "env": {
+      "jasmine": true
+    }
+}
