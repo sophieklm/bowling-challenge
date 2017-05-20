@@ -9,12 +9,13 @@ $( document ).ready(function() {
    });
 
    $('#bowl').on('click', function(){
-     if (game.gameOver()) {
-       gameOver();
-     }
      pins = game.randomNumber();
      bowlnum = game.eachscore.length;
      frame = game.getFrame();
+     if (game.gameOver()) {
+       gameOver();
+       updateTotal(game.getScore(), frame);
+     }
      game.bowl(pins);
      updateScore(game.getCurrentScore(), bowlnum);
      updateTotal(game.getScore(), frame);
