@@ -5,22 +5,19 @@ $( document ).ready(function() {
      game = new Game();
      $('#scoresheet td').html('');
      $('#game-over').text('');
+     $('#banter').text('');
    });
 
    $('#bowl').on('click', function(){
      if (game.gameOver()) {
        gameOver();
      }
-     pins = randomNumber();
+     pins = game.randomNumber();
      bowlnum = game.eachscore.length;
      game.bowl(pins);
      updateScore(game.getCurrentScore(), bowlnum);
+     throwBanter();
    });
-
-   function randomNumber() {
-     return Math.floor(Math.random() * 10) + 1;
-   };
-
 
    function updateScore(score, bowlnum) {
      $('#scoresheet td').eq(bowlnum).html(pins);
@@ -28,6 +25,12 @@ $( document ).ready(function() {
 
    function gameOver(){
      $('#game-over').text("Game Over!");
-   }
+   };
+
+   function throwBanter() {
+     var array = ["Great roll!", "Ooh that was close!", "You're terrible at this!", "I dream of bowling like you"];
+     var randomIndex = Math.floor(Math.random() * array.length);
+     $('#banter').text(array[randomIndex]);
+   };
 
 });
