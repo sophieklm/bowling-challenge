@@ -1,5 +1,7 @@
+
+
 describe('Game', function () {
-  var game;
+  var game //= require('../src/game.js');
 
   beforeEach(function () {
     game = new Game();
@@ -55,10 +57,32 @@ describe('Game', function () {
       }
       expect(function () { game.bowl(1) }).toThrowError('Game Over!');
     });
+  });
+
+  describe('strikes and spares', function() {
+    it('knows 10 pins is a strike', function (){
+      game.bowl(10);
+      expect(game.isStrike()).toBe(true);
+    });
 
     it('incrememnts frame after strike', function () {
       game.bowl(10);
       expect(game.getFrame()).toEqual(2);
+      expect(game.eachscore[1]).toEqual(10);
+    });
+
+    it('knows if previous frame was a strike', function(){
+      game.bowl(10);
+      game.bowl(5);
+      expect(game.wasStrike()).toBe(true);
+    });
+
+    it('adds score from current frame to total score if previous was strike', function(){
+      game.bowl(10);
+      game.bowl(5);
+      game.bowl(3);
+      expect(game.framescore[0]).toEqual(18);
+      expect(game.getScore()).toEqual(26);
     });
   });
 
