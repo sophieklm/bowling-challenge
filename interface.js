@@ -14,13 +14,19 @@ $( document ).ready(function() {
      }
      pins = game.randomNumber();
      bowlnum = game.eachscore.length;
+     frame = game.getFrame();
      game.bowl(pins);
      updateScore(game.getCurrentScore(), bowlnum);
+     updateTotal(game.getScore(), frame);
      throwBanter();
    });
 
    function updateScore(score, bowlnum) {
-     $('#scoresheet td').eq(bowlnum).html(pins);
+     $('#scoresheet tr:nth-child(1) td').eq(bowlnum).html(pins);
+   };
+
+   function updateTotal(score, frame) {
+     $('#scoresheet tr:nth-child(2) td').eq(frame-1).html(score);
    };
 
    function gameOver(){
