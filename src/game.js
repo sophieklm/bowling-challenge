@@ -91,7 +91,7 @@ Game.prototype.bowl = function (pins) {
   };
 
   Game.prototype.randomNumber = function() {
-    return Math.floor(Math.random() * this.getPins()) + 1;
+    return Math.floor(Math.random() * this.getPins());
   };
 
 
