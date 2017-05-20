@@ -63,11 +63,13 @@ Game.prototype.wasStrike = function () {
 };
 
 Game.prototype.bowl = function (pins) {
-  if (this.getFrame() > this.MAX_FRAMES) {
+  if (this.gameOver()) {
     throw new Error('Game Over!');
   }
   this.setCurrentScore(pins);
-  if (this.isStrike()) {
+  if (this.wasStrike()) {
+
+  } if (this.isStrike()) {
     this.eachscore.push(0);
     this.incrementFrame(1);
   } else if (this.getBowl() === 1) {
@@ -83,6 +85,14 @@ Game.prototype.bowl = function (pins) {
   this.setScore(pins);
   this.eachscore.push(this.getCurrentScore());
 };
+
+  Game.prototype.gameOver = function () {
+    return this.getFrame() > this.MAX_FRAMES;
+  };
+
+  Game.prototype.randomNumber = function() {
+    return Math.floor(Math.random() * this.getPins()) + 1;
+  };
 
 
 //module.exports = new Game();

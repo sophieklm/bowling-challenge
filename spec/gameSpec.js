@@ -57,9 +57,17 @@ describe('Game', function () {
       }
       expect(function () { game.bowl(1) }).toThrowError('Game Over!');
     });
+
+    it('knows when the game is over', function(){
+      for(var i = 0; i < 20; i++) {
+        game.bowl(1);
+      }
+      expect(game.gameOver()).toBe(true);
+    });
+
   });
 
-  describe('strikes and spares', function() {
+  describe('strikes', function() {
     it('knows 10 pins is a strike', function (){
       game.bowl(10);
       expect(game.isStrike()).toBe(true);
@@ -83,6 +91,37 @@ describe('Game', function () {
       game.bowl(3);
       expect(game.framescore[0]).toEqual(18);
       expect(game.getScore()).toEqual(26);
+    });
+
+    it('does stuff to double strikes', function(){
+      game.bowl(10);
+      game.bowl(10);
+      game.bowl(3);
+      expect(game.framescore[0]).toEqual(23);
+      expect(game.getScore()).toEqual(36);
+    });
+  });
+
+  describe('spares', function() {
+    it('knows a total of 10 is a spare if not a strike', function (){
+      game.bowl(3);
+      game.bowl(7);
+      expect(game.isSpare()).toBe(true);
+    });
+
+    it('knows if previous frame was a spare', function(){
+      game.bowl(3);
+      game.bowl(7);
+      game.bowl(5);
+      expect(game.wasSpare()).toBe(true);
+    });
+
+    it('adds score from current frame to total score if previous was strike', function(){
+      game.bowl(3);
+      game.bowl(7);
+      game.bowl(5);
+      expect(game.framescore[0]).toEqual(15);
+      expect(game.getScore()).toEqual(20);
     });
   });
 
