@@ -1,4 +1,4 @@
-
+//var Game = require('../src/game')
 
 describe('Game', function () {
   var game //= require('../src/game.js');
@@ -55,13 +55,6 @@ describe('Game', function () {
       for(var i = 0; i < 20; i++) {
         game.bowl(1);
       }
-      expect(function () { game.bowl(1) }).toThrowError('Game Over!');
-    });
-
-    it('knows when the game is over', function(){
-      for(var i = 0; i < 20; i++) {
-        game.bowl(1);
-      }
       expect(game.gameOver()).toBe(true);
     });
 
@@ -76,13 +69,7 @@ describe('Game', function () {
     it('incrememnts frame after strike', function () {
       game.bowl(10);
       expect(game.getFrame()).toEqual(2);
-      expect(game.eachscore[1]).toEqual(10);
-    });
-
-    it('knows if previous frame was a strike', function(){
-      game.bowl(10);
-      game.bowl(5);
-      expect(game.wasStrike()).toBe(true);
+      expect(game.eachscore[0]).toEqual(10);
     });
 
     it('adds score from current frame to total score if previous was strike', function(){
@@ -109,13 +96,6 @@ describe('Game', function () {
       expect(game.isSpare()).toBe(true);
     });
 
-    it('knows if previous frame was a spare', function(){
-      game.bowl(3);
-      game.bowl(7);
-      game.bowl(5);
-      expect(game.wasSpare()).toBe(true);
-    });
-
     it('adds score from current frame to total score if previous was strike', function(){
       game.bowl(3);
       game.bowl(7);
@@ -128,4 +108,14 @@ describe('Game', function () {
   describe('last frame', function () {
 
   });
+
+  describe('gutter game', function () {
+    it('can be a gutter game', function() {
+      for(var i = 0; i < 20; i++) {
+        game.bowl(0);
+      }
+      expect(game.getScore()).toEqual(0);
+    });
+  });
+
 });

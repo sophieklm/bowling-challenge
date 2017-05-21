@@ -1,4 +1,4 @@
-var Game = function () {
+function Game() {
   this.START_PINS = 10;
   this.MAX_FRAMES = 10;
   this.currentscore = 0;
@@ -8,6 +8,57 @@ var Game = function () {
   this.framebowl = 1;
   this.eachscore = [];
   this.framescore = [];
+};
+
+Game.prototype.bowl = function (pins) {
+  this.setCurrentScore(pins);
+  if (this.gameOver()) {
+    this.setCurrentScore(0);
+  } else {
+    this.eachscore.push(this.getCurrentScore());
+    if (this.isStrike()) {
+    this.framescore.push(this.getCurrentScore());
+    this.eachscore.push(0);
+    this.incrementFrame(1);
+  } else if (this.isSpare()) {
+    this.eachscore.push(0);
+    this.incrementFrame(1);
+  } else if (this.getBowl() === 1) {
+    this.framescore.push(this.getCurrentScore());
+    this.setPins(pins);
+    this.changeBowl(2);
+  } else if (this.getBowl() === 2) {
+    this.secondBowlScoring(this.getFrame());
+  }};
+  this.calculateScore();
+};
+
+Game.prototype.calculateScore = function () {
+  this.score = this.framescore.reduce((x, y) => x + y);
+};
+
+Game.prototype.secondBowlScoring = function (index) {
+  this.framescore[index-1] += this.getCurrentScore();
+  this.checkStrike();
+  this.setCurrentScore(0);
+  this.incrementFrame(1);
+  this.resetPins();
+  this.changeBowl(1);
+};
+
+Game.prototype.finalStrikeBonus = function(index) {
+  this.framescore.push(0);
+  this.framescore[index] += this.getCurrentScore();
+};
+
+Game.prototype.checkStrike = function(){
+  if (this.wasStrike()) {
+    this.strikeBonus(this.getFrame());
+  }
+};
+
+Game.prototype.strikeBonus = function(index){
+  this.framescore[index-2] += this.framescore[index-1];
 };
 
 Game.prototype.getScore = function () {
@@ -55,44 +106,25 @@ Game.prototype.changeBowl = function (set) {
 };
 
 Game.prototype.isStrike = function () {
-  return this.getCurrentScore() === 10 ;
+  return this.framebowl === 1 && this.getCurrentScore() === 10 ;
+};
+
+Game.prototype.isSpare = function () {
+  return this.framebowl === 2 && this.getCurrentScore() === 10 ;
 };
 
 Game.prototype.wasStrike = function () {
-  return this.eachscore[this.eachscore.length-2] === 10 ;
+  return this.eachscore[this.eachscore.length-4] === 10 ;
 };
 
-Game.prototype.bowl = function (pins) {
-  if (this.gameOver()) {
-    throw new Error('Game Over!');
-  }
-  this.setCurrentScore(pins);
-  if (this.wasStrike()) {
 
-  } if (this.isStrike()) {
-    this.eachscore.push(0);
-    this.incrementFrame(1);
-  } else if (this.getBowl() === 1) {
-    this.setCurrentScore(pins);
-    this.setPins(pins);
-    this.changeBowl(2);
-  } else if (this.getBowl() === 2) {
-    this.setCurrentScore(0);
-    this.incrementFrame(1);
-    this.resetPins();
-    this.changeBowl(1);
-  }
-  this.setScore(pins);
-  this.eachscore.push(this.getCurrentScore());
+Game.prototype.gameOver = function () {
+  return this.getFrame() > this.MAX_FRAMES;
 };
 
-  Game.prototype.gameOver = function () {
-    return this.getFrame() > this.MAX_FRAMES;
-  };
-
-  Game.prototype.randomNumber = function() {
-    return Math.floor(Math.random() * (this.getPins() + 1));
-  };
+Game.prototype.randomNumber = function() {
+  return Math.floor(Math.random() * (this.getPins() + 1));
+};
 
 
-//module.exports = new Game();
+//module.exports = Game;
