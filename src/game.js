@@ -19,6 +19,7 @@ Game.prototype.bowl = function (pins) {
     if (this.isStrike()) {
     this.framescore.push(this.getCurrentScore());
     this.eachscore.push(0);
+    this.checkStrike();
     this.incrementFrame(1);
   } else if (this.isSpare()) {
     this.eachscore.push(0);

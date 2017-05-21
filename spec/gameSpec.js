@@ -84,8 +84,10 @@ describe('Game', function () {
       game.bowl(10);
       game.bowl(10);
       game.bowl(3);
+      game.bowl(4);
       expect(game.framescore[0]).toEqual(23);
-      expect(game.getScore()).toEqual(36);
+      expect(game.framescore[1]).toEqual(17);
+      expect(game.getScore()).toEqual(47);
     });
   });
 
